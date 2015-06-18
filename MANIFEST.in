@@ -1,0 +1,9 @@
+# This file is part of vitrine.
+# https://github.com/globocom/vitrine
+
+# Licensed under the MIT license:
+# http://www.opensource.org/licenses/MIT-license
+# Copyright (c) 2015, Globo.com <talentos@corp.globo.com>
+
+prune *
+recursive-include vitrine *.py *.ini *.conf *.jpg *.jpeg *.coffee *.js *.css *.scss *.gif *.png *.html *.htm .webassets-manifest

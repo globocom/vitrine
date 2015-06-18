@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="hero-unit">
+        <h1>'Allo, 'Allo!</h1>
+        <h2>Welcome to vitrine</h2>
+        <h3>A vitrine to showcase projects developed by Globo.com</h3>
+        <p class="statement">You now have:</p>
+        <ul class="check">
+            <li>Flask Application</li>
+            <li>Flask Commands</li>
+            <li>Templates with Layout</li>
+            <li>Flask Debug Toolbar</li>
+            <li>Authentication</li>
+            <li>Mongo Engine models</li>
+            <li>Coffeescript and Compass</li>
+            <li>Bower support</li>
+            <li>Automatic spriting</li>
+        </ul>
+
+        <h4>Currently {{ users|length }} users registered.</h4>
+
+    </div>
+{% endblock content %}

@@ -1,0 +1,17 @@
+{
+  "name": "vitrine",
+  "version": "0.1.0",
+  "description": "vitrine",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "bower": "*",
+    "organize-bower-sources": "desandro/organize-bower-sources"
+  },
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://github.com/globocom/vitrine"
+}

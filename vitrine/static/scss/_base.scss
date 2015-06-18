@@ -1,0 +1,86 @@
+// This file is part of vitrine.
+// https://github.com/globocom/vitrine
+
+// Licensed under the MIT license:
+// http://www.opensource.org/licenses/MIT-license
+// Copyright (c) 2015, Globo.com <talentos@corp.globo.com>
+
+/* This is just sample CSS - feel free to delete */
+
+body {
+    background: #fafafa;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+.hero-unit {
+    margin: 50px auto 0 auto;
+    width: 300px;
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 30px;
+    background-color: #eee;
+    border-radius: 6px;
+    padding: 60px 60px 30px;
+
+    h1 {
+        font-size: 60px;
+        line-height: 1;
+        letter-spacing: -1px;
+    }
+
+    h2 {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        padding: 20px;
+        color: #666;
+        line-height: 15px;
+    }
+
+    h3, h4 {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        padding-bottom: 15px;
+        color: #999;
+        line-height: 13px;
+    }
+
+    h4 {
+        font-size: 12px;
+        padding: 15px 0 0;
+        color: #ccc;
+        line-height: 9px;
+    }
+
+    .statement {
+        font-weight: bold;
+    }
+
+    li {
+        position: relative;
+        padding-left: 20px;
+    }
+
+    .check li {
+        &:before {
+            content: '';
+            display: block;
+            @include common-sprite(check, $dimensions: true);
+            position: absolute;
+            top: 50%;
+            left: 0;
+            margin-top: -8px;
+        }
+    }
+
+    a {
+        font-size: 12px;
+        color: #333;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
