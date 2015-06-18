@@ -18,6 +18,7 @@ setup-python:
 	@pip install -U -e .\[tests\]
 
 setup-ruby:
+	@rvm install --autolibs=3 ruby-$(shell cat .ruby-version)
 	@bundle
 
 setup-node:
