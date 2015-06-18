@@ -58,6 +58,7 @@ A vitrine to showcase projects developed by Globo.com
         'pymongo<3.0.0',
         'python-gitlab',
         'sheep<0.4.0',
+        'python-dateutil<=2.4.2'
     ],
     extras_require={
         'tests': tests_require,

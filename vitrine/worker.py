@@ -10,10 +10,15 @@
 
 import sys
 import logging
+import mongoengine
 
 from sheep import Shepherd
+from gitlab import Gitlab
+from dateutil import parser
 
 from vitrine import __version__
+from vitrine.models.commit import Commit
+from vitrine.models.user import User
 
 
 class VitrineWorker(Shepherd):
@@ -44,11 +49,55 @@ class LangStatsWorker(Shepherd):
         logging.debug('Work done!')
 
 
+class CommitWorker(Shepherd):
+
+    def initialize(self):
+        mongoengine.connect(self.config.DB_NAME, host=self.config.DB_HOST)
+
+    def get_description(self):
+        return 'Commit worker {}'.format(__version__)
+
+    def do_work(self):
+
+        logging.debug('Started doing work...')
+        gitlab = Gitlab(self.config.GITLAB_URL, self.config.GITLAB_TOKEN)
+        gitlab.auth()
+
+        logging.debug('Loading projects from gitlab...')
+
+        for project in gitlab.Project():
+            for cmt in project.Commit():
+
+                try:
+                    commit = Commit.objects.get(commit_id=cmt.id)
+                except:
+                    commit = Commit()
+
+                commit.commit_id = cmt.id
+                commit.short_id = cmt.short_id
+                commit.title = cmt.title
+                commit.author_name = cmt.author_name
+                commit.author_email = cmt.author_email
+                commit.created_at = parser.parse(cmt.created_at)
+                commit.team_name = "team"
+                commit.project_id = cmt.project_id
+                commit.project_name = project.name
+                commit.save()
+
+
 def main():
     worker = VitrineWorker(sys.argv[1:])
     worker.run()
 
 
+def commit():
+    worker = CommitWorker(sys.argv[1:])
+    worker.run()
+commit()
+
+
 def langstats():
     worker = LangStatsWorker(sys.argv[1:])
     worker.run()
+
+requests.packages.urllib3.disable_warnings()
