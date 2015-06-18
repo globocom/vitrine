@@ -19,12 +19,13 @@ Config.define('WEBASSETS_DIRECTORY', STATIC_PATH, 'Folder to be root directory f
 Config.define('WEBASSETS_AUTO_BUILD', True, 'Auto build static files', 'Web')
 Config.define('WEBASSETS_CACHE_PATH', '/tmp/vitrine/.webassets_cache', 'WebAssets cache path', 'Web')
 
-
 Config.define('MONGODB_HOST', 'localhost', 'Host for the MongoDB database', 'MongoDB')
 Config.define('MONGODB_DB', 'vitrine', 'Database name for the MongoDB database', 'MongoDB')
 Config.define('MONGODB_PORT', 3333, 'Port for the MongoDB database', 'MongoDB')
 Config.define('MONGODB_USERNAME', None, 'Username for the MongoDB database', 'MongoDB')
 Config.define('MONGODB_PASSWORD', None, 'Password for the MongoDB database', 'MongoDB')
+
+Config.define('GITLAB_BASE_URL', None, 'Base URL for gitlab', 'Gitlab')
 
 
 def init_app(app, path=None):
