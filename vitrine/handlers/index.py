@@ -35,5 +35,5 @@ def get_group_users(group_id):
 
 @mod.route("/")
 def index():
-    users = User.objects.all()a
+    users = User.objects.all()
     return render_template('index.html', dt=datetime.now().strftime("%d %M %Y - %H %m %s"), users=users)
