@@ -66,7 +66,8 @@ A vitrine to showcase projects developed by Globo.com
         'console_scripts': [
             'vitrine=vitrine.app:main',
             'vitrine-manage=vitrine.manage:main',
-            'vitrine-worker=vitrine.worker:main',
+            'vitrine-commits-worker=vitrine.worker:commits',
+            'vitrine-langstats-worker=vitrine.worker:langstats',
         ],
     },
 )

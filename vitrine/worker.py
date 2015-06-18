@@ -30,9 +30,25 @@ class VitrineWorker(Shepherd):
         logging.debug('Work done!')
 
 
+class LangStatsWorker(Shepherd):
+
+    def initialize(self):
+        self.hello_message = 'Hello, World! I am langstats!'
+
+    def get_description(self):
+        return 'LangStats worker {}'.format(__version__)
+
+    def do_work(self):
+        logging.debug('Started doing work...')
+        logging.info(self.hello_message)
+        logging.debug('Work done!')
+
+
 def main():
     worker = VitrineWorker(sys.argv[1:])
     worker.run()
 
-if __name__ == '__main__':
-    main()
+
+def langstats():
+    worker = LangStatsWorker(sys.argv[1:])
+    worker.run()
