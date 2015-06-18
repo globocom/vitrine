@@ -36,9 +36,6 @@ def run_bower_list():
 
 
 def create_app(config, debug=False):
-    if config is None:
-        config = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'config', 'local.conf'))
-
     app = Flask(__name__)
     app.debug = debug
     config_module.init_app(app, config)
@@ -82,7 +79,7 @@ def parse_arguments(args=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--port', '-p', type=int, default="3000", help="Port to start the server with.")
     parser.add_argument('--bind', '-b', default="0.0.0.0", help="IP to bind the server to.")
-    parser.add_argument('--conf', '-c', default='vitrine/config/local.conf', help="Path to configuration file.")
+    parser.add_argument('--conf', '-c', default=None, help="Path to configuration file.")
     parser.add_argument('--debug', '-d', action='store_true', default=False, help='Indicates whether to run in debug mode.')
 
     options = parser.parse_args(args)
