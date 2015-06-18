@@ -21,7 +21,6 @@ tests_require = [
     'ipdb',
     'coveralls',
     'sphinx',
-    'python-gitlab',
 ]
 
 setup(
@@ -49,14 +48,15 @@ A vitrine to showcase projects developed by Globo.com
     packages=find_packages(),
     include_package_data=False,
     install_requires=[
-        'Flask>=0.10.0,<0.11.0',
-        'derpconf>=0.7.0,<0.8.0',
-        'flask-debugtoolbar>=0.9.0,<0.10.0',
-        'flask-assets>=0.10',
         'cssmin>=0.2.0,<0.3.0',
-        'Flask-Script>=2.0.0,<2.1.0',
+        'derpconf>=0.7.0,<0.8.0',
+        'flask-assets>=0.10',
+        'flask-debugtoolbar>=0.9.0,<0.10.0',
         'flask-mongoengine>=0.7.0,<0.8.0',
+        'Flask-Script>=2.0.0,<2.1.0',
+        'Flask>=0.10.0,<0.11.0',
         'pymongo<3.0.0',
+        'python-gitlab',
         'sheep<0.4.0',
     ],
     extras_require={
