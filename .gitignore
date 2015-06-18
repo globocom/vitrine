@@ -58,8 +58,13 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+node_modules
 vitrine/static/.webassets-manifest
-vitrine/static/images/common-s92a219d1bb.png
+vitrine/static/images/common-*.png
 vitrine/static/css
 vitrine/static/js
-node_modules
+vitrine/config/local.conf
+vitrine/include
+vitrine/man
+vitrine/pip-selfcheck.json
+vitrine/share
