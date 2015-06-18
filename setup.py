@@ -57,6 +57,7 @@ A vitrine to showcase projects developed by Globo.com
         'Flask-Script>=2.0.0,<2.1.0',
         'flask-mongoengine>=0.7.0,<0.8.0',
         'pymongo<3.0.0',
+        'sheep<0.4.0',
     ],
     extras_require={
         'tests': tests_require,
@@ -65,6 +66,7 @@ A vitrine to showcase projects developed by Globo.com
         'console_scripts': [
             'vitrine=vitrine.app:main',
             'vitrine-manage=vitrine.manage:main',
+            'vitrine-worker=vitrine.worker:main',
         ],
     },
 )
