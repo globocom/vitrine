@@ -31,6 +31,7 @@ def do_mongoengine_healthcheck():
 def init_app(app):
     logging.info('initializing db')
 
+    app.config['MONGODB_HOST'] = app.config.get('DBAAS_MONGODB_ENDPOINT')
     mongo.init_app(app)
 
     if app.debug:

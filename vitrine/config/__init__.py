@@ -13,17 +13,15 @@ from derpconf.config import Config, generate_config
 
 STATIC_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'static'))
 
+Config.allow_environment_variables()
+
 Config.define('APP_SECRET_KEY', None, 'SECRET KEY TO CONFIGURE vitrine', 'Security')
 
 Config.define('WEBASSETS_DIRECTORY', STATIC_PATH, 'Folder to be root directory for webassets', 'Web')
 Config.define('WEBASSETS_AUTO_BUILD', True, 'Auto build static files', 'Web')
 Config.define('WEBASSETS_CACHE_PATH', '/tmp/vitrine/.webassets_cache', 'WebAssets cache path', 'Web')
 
-Config.define('MONGODB_HOST', 'localhost', 'Host for the MongoDB database', 'MongoDB')
-Config.define('MONGODB_DB', 'vitrine', 'Database name for the MongoDB database', 'MongoDB')
-Config.define('MONGODB_PORT', 3333, 'Port for the MongoDB database', 'MongoDB')
-Config.define('MONGODB_USERNAME', None, 'Username for the MongoDB database', 'MongoDB')
-Config.define('MONGODB_PASSWORD', None, 'Password for the MongoDB database', 'MongoDB')
+Config.define('DBAAS_MONGODB_ENDPOINT', 'mongodb://localhost:3333/vitrine', 'Host for the MongoDB database', 'MongoDB')
 
 Config.define('GITLAB_BASE_URL', None, 'Base URL for gitlab', 'Gitlab')
 

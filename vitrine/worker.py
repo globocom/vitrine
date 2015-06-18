@@ -129,11 +129,7 @@ class LangStatsWorker(Shepherd):
 class CommitWorker(Shepherd):
 
     def initialize(self):
-        mongoengine.connect(
-            self.config.MONGO_DB,
-            host=self.config.MONGO_HOST,
-            username=self.config.MONGO_USERNAME,
-            password=self.config.MONGO_PASSWORD)
+        mongoengine.connect(host=self.config.DBAAS_MONGODB_ENDPOINT)
 
     def get_description(self):
         return 'Commit worker {}'.format(__version__)
