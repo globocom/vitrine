@@ -94,17 +94,17 @@ def init_app(app):
     )
     assets_env.register('css_all', css_all_bundle)
 
-    css_out = 'css/base.%(version)s.css'
-    if app.debug:
-        css_out = 'css/base.css'
+    # css_out = 'css/base.%(version)s.css'
+    # if app.debug:
+    #     css_out = 'css/base.css'
 
-    css_files = bower_dependencies.get('.css', [])
-    css_base_bundle = assets.Bundle(
-        *css_files,
-        filters=['cssmin'],
-        output=css_out
-    )
-    assets_env.register('css_base', css_base_bundle)
+    # css_files = bower_dependencies.get('.css', [])
+    # css_base_bundle = assets.Bundle(
+    #     *css_files,
+    #     filters=['cssmin'],
+    #     output=css_out
+    # )
+    # assets_env.register('css_base', css_base_bundle)
 
     if app.debug:
         assets_env.set_updater(TimestampUpdater())
