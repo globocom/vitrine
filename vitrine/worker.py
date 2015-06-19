@@ -8,44 +8,125 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2015, Globo.com <talentos@corp.globo.com>
 
+import time
 import sys
 import logging
+import gitlab
 import mongoengine
+import collections
+import requests
 
+from threading import Semaphore, Thread
+
+from models.team import Team
 from sheep import Shepherd
 from gitlab import Gitlab
 from dateutil import parser
 
-from vitrine import __version__
+from vitrine import __version__, config
 from vitrine.models.commit import Commit
 from vitrine.models.user import User
 
 
-class VitrineWorker(Shepherd):
-
-    def initialize(self):
-        self.hello_message = 'Hello, World! We are Globo.com!'
-
-    def get_description(self):
-        return 'Vitrine worker {}'.format(__version__)
-
-    def do_work(self):
-        logging.debug('Started doing work...')
-        logging.info(self.hello_message)
-        logging.debug('Work done!')
+IGNORE = {
+    'conf',
+    'txt',
+    'lock',
+    'project',
+    'wiki',
+    'properties',
+    'gems',
+    'gemspec',
+    'rspec',
+    'patch',
+    'globo',
+    'ico',
+    'jpeg',
+    'gif',
+    'jpg',
+    'png',
+    'hosts',
+    'empty',
+    'localhost',
+    'loopback',
+    'base',
+    'apt',
+    'ca',
+    'unfiltered',
+    'setup',
+    'init',
+}
 
 
 class LangStatsWorker(Shepherd):
 
     def initialize(self):
-        self.hello_message = 'Hello, World! I am langstats!'
+        self.gl = gitlab.Gitlab(self.config.GITLAB_BASE_URL, self.config.APP_SECRET_KEY)
+        mongoengine.connect(config.Config().get('MONGODB_DB'), host=config.Config().get('MONGODB_HOST'))
+        self.gl.auth()
 
     def get_description(self):
         return 'LangStats worker {}'.format(__version__)
 
+    def _get_lines(self, project, path):
+        try:
+            return 1#project.blob('master', filepath=path).count('\n')
+        except:
+            print project.id, path
+            return 1
+
+    def _walk(self, current_node, project, extensions, path):
+        for file_ in current_node:
+            if path:
+                new_path = '/'.join([path, file_['name']])
+            else:
+                new_path = file_['name']
+            if file_['type'] == 'tree':
+                self._walk(project.tree(path=new_path, ref_name='master'), project, extensions, new_path)
+            else:
+                exts = file_['name'].split('.')
+                if len(exts) > 1 and exts[0] and exts[-1].lower() not in IGNORE:
+                    extensions[exts[-1].lower()] += self._get_lines(project, new_path)
+
+    def _lang_stats(self, project):
+        extensions = collections.defaultdict(lambda: 0)
+        try:
+            current_node = project.tree(ref_name='master')
+        except gitlab.GitlabGetError:
+            return {}
+        else:
+            self._walk(current_node, project, extensions, '')
+            return extensions
+
+    def _process_project(self, project, s):
+        try:
+            team = Team.objects(team_id=project.namespace.id).first()
+            if not team:
+                team = Team(team_id=project.namespace.id)
+            for (lang, total) in self._lang_stats(project).items():
+                if lang in team.languages:
+                    team.languages[lang] += total
+                else:
+                    team.languages[lang] = total
+            team.save()
+        finally:
+            s.release()
+
     def do_work(self):
         logging.debug('Started doing work...')
-        logging.info(self.hello_message)
+        page = 0
+        s = Semaphore(30)
+        while True:
+            t0 = time.time()
+            projects = self.gl.all_projects(page=page)
+            if not projects:
+                break
+            else:
+                page += 1
+            for project in projects:
+                s.acquire()
+                Thread(target=lambda: self._process_project(project, s)).start()
+            print "Rate: %s" % (len(projects)/(time.time()-t0))
         logging.debug('Work done!')
 
 
@@ -90,11 +171,6 @@ class CommitWorker(Shepherd):
                     commit.project_id = cmt.project_id
                     commit.project_name = project.name
                     commit.save()
-
-
-def main():
-    worker = VitrineWorker(sys.argv[1:])
-    worker.run()
 
 
 def commit():
