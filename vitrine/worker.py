@@ -137,7 +137,6 @@ class LangStatsWorker(Shepherd):
         team.save()
 
     def do_work(self):
-        print 'Here we go again!'
         logging.debug('Started doing work...')
         for project in _get_projects(self.gl):
             self._process_project(project)
