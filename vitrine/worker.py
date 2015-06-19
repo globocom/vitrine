@@ -171,5 +171,3 @@ def commit():
 def langstats():
     worker = LangStatsWorker(sys.argv[1:])
     worker.run()
-
-#commit()
