@@ -123,7 +123,7 @@ class LangStatsWorker(Shepherd):
     def _process_project(self, project):
         team = Team.objects(team_id=project.namespace.id).first()
         # We reset team statistics when we first encounter it
-        if project.namespace.id not in self.teams_seen:
+        if team and project.namespace.id not in self.teams_seen:
             team.delete()
             team = None
             self.teams_seen.add(project.namespace.id)
