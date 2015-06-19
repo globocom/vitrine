@@ -124,13 +124,13 @@ class LangStatsWorker(Shepherd):
         logging.debug('Work done!')
 
 
-class CommitWorker(Shepherd):
+class CommitsWorker(Shepherd):
 
     def initialize(self):
         mongoengine.connect(host=self.config.DBAAS_MONGODB_ENDPOINT)
 
     def get_description(self):
-        return 'Commit worker {}'.format(__version__)
+        return 'Commits worker {}'.format(__version__)
 
     def do_work(self):
 
@@ -138,7 +138,7 @@ class CommitWorker(Shepherd):
         gitlab = Gitlab(self.config.GITLAB_URL, self.config.GITLAB_TOKEN)
         gitlab.auth()
 
-        logging.info('Loading projects from gitlab...')
+        logging.info('Loading projects from Gitlab...')
 
         for project in gitlab.Project():
             for cmt in project.Commit(per_page=100):
@@ -163,8 +163,8 @@ class CommitWorker(Shepherd):
                     commit.save()
 
 
-def commit():
-    worker = CommitWorker(sys.argv[1:])
+def commits():
+    worker = CommitsWorker(sys.argv[1:])
     worker.run()
 
 
