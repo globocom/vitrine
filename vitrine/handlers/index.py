@@ -42,10 +42,15 @@ def get_group(group_id):
     return gl.Group(group_id)
 
 
+def get_all_groups():
+    gl = auth()
+    return gl.Group()
+
+
 @mod.route("/")
 def index():
-    users = User.objects.all()
-    return render_template('index.html', dt=datetime.now().strftime("%d %M %Y - %H %m %s"), users=users)
+    groups = get_all_groups()
+    return render_template('index.html', dt=datetime.now().strftime("%d %M %Y - %H %m %s"), groups=groups)
 
 
 @mod.route("/groups/<id>")
