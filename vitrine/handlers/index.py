@@ -70,7 +70,7 @@ def get_languages(id):
     if team:
         total = sum(team.languages.values())
         languages = []
-        for ext, count in team.languages:
+        for ext, count in sorted(team.languages.items(), key=lambda x: x[1]):
             languages.append((ext, float(count) / total))
         return languages
     else:
