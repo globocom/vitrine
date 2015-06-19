@@ -57,6 +57,8 @@ IGNORE = {
     'init',
 }
 
+GROUP_IDS = [9, 33, 88, 15, 14, 102]
+
 
 class LangStatsWorker(Shepherd):
 
