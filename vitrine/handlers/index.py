@@ -67,33 +67,33 @@ def index():
 
 
 EXTENSION_MAP = {
-    'py': 'Python',
-    'pl': 'Perl',
-    'groovy': 'Groovy',
-    'java': 'Java',
-    'css': 'CSS',
-    'html': 'HTML',
-    'js': 'Javascript',
-    'go': 'Go',
-    'sh': 'Shell',
-    'bash': 'Bash',
-    'rb': 'Ruby',
-    'c': 'C',
-    'h': 'C',
-    'cpp': 'C++',
-    'cc': 'C++',
-    'cs': 'C#',
-    'scala': 'Scala',
-    'erl': 'Erlang',
-    'hs': 'Haskell',
-    'coffee': 'Coffee',
-    'scss': 'Scss',
-    'sass': 'Sass',
-    'less': 'Less',
-    'sql': 'SQL',
-    'haml': 'Haml',
-    'php': 'PHP',
-    'jsp': 'JavaServer Pages',
+    'py': ('Python', '#3581ba'),
+    'pl': ('Perl', '#0298c3'),
+    'groovy': ('Groovy', '#e69f56'),
+    'java': ('Java', '#b07219'),
+    'css': ('CSS', '#563d7c'),
+    'html': ('HTML', '#e44b23'),
+    'js': ('Javascript', '#f1e05a'),
+    'go': ('Go', '#82937f'),
+    'sh': ('Shell', '#89e051'),
+    'bash': ('Bash', '#89e051'),
+    'rb': ('Ruby', '#701516'),
+    'c': ('C', '#555'),
+    'h': ('C', '#555'),
+    'cpp': ('C++', '#f34b7d'),
+    'cc': ('C++', '#f34b7d'),
+    'cs': ('C#', '#178600'),
+    'scala': ('Scala', '#7dd3b0'),
+    'erl': ('Erlang', '#0faf8d'),
+    'hs': ('Haskell', '#29b544'),
+    'coffee': ('Coffee', '#244776'),
+    'scss': ('Scss', '#563d7c'),
+    'sass': ('Sass', '#563d7c'),
+    'less': ('Less', '#563d7c'),
+    'sql': ('SQL', '#3F3F3F'),
+    'haml': ('Haml', '#0e60e3'),
+    'php': ('PHP', '#4F5D95'),
+    'jsp': ('JavaServer Pages', '#b07219'),
 }
 
 
@@ -110,7 +110,7 @@ def get_languages(id):
             elif ext in EXTENSION_MAP:
                 other += float(count)
         if other:
-            languages.append(('Outras', other / total))
+            languages.append((('Outras', '#888'), other / total))
         return languages
     else:
         return []

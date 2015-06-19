@@ -403,10 +403,9 @@
 
   $(function() {
 
-    {% set colors = ["#4A90E2", "#F5A623", "#50E3C2", "#7ED321", "#417505", "#9B9B9B"] %}
     var d5 = [
         {% for lang in languages %}
-            {data: [["{{lang[0]}}", {{lang[1]}}]], color: "{{colors[loop.index]}}" },
+            {data: [["{{lang[0][0]}}", {{lang[1]}}]], color: "{{lang[0][1]}}" },
         {% endfor %}
     ];
 
