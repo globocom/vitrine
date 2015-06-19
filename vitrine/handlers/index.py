@@ -100,7 +100,7 @@ EXTENSION_MAP = {
 def get_languages(id):
     team = Team.objects(team_id=id).first()
     if team:
-        total = sum(team.languages.values())
+        total = sum(v for (k, v) in team.languages.items() if k in EXTENSION_MAP)
         languages = []
         for ext, count in sorted(team.languages.items(), key=lambda x: x[1]):
             if ext in EXTENSION_MAP:
