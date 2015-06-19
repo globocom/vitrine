@@ -35,7 +35,9 @@ def get_group_users(group_id):
     users = []
 
     for member in members:
-        users.append(gl.User(member.id))
+        user = gl.User(member.id)
+        user.avatar_url = user.avatar_url.replace('s=40', 's=120')
+        users.append(user)
 
     return users
 
