@@ -44,7 +44,10 @@ commits2Stackbars = function(data) {
     }
   }
   chartData = Object.keys(projects).map(function(key) {
-    return projects[key];
+    return {
+      label: key,
+      data: projects[key]
+    };
   });
   return chartData;
 };
@@ -54,7 +57,8 @@ plotCommitsChart = function(placeholder, data) {
     series: {
       stack: 0,
       bars: {
-        fill: 1.0,
+        fill: 1,
+        align: 'center',
         show: true,
         barWidth: 0.6,
         lineWidth: 0
@@ -67,24 +71,7 @@ plotCommitsChart = function(placeholder, data) {
     },
     grid: {
       borderWidth: 0,
-      aboveData: true,
-      markings: [
-        {
-          color: '#E5E5E5',
-          lineWidth: 1,
-          xaxis: {
-            from: 4,
-            to: 4
-          }
-        }, {
-          color: '#E5E5E5',
-          lineWidth: 1,
-          xaxis: {
-            from: 8,
-            to: 8
-          }
-        }
-      ]
+      aboveData: true
     }
   });
 };

@@ -130,6 +130,9 @@ def group(id):
     users = get_group_users(gl, id)
     group = get_group(gl, id)
     languages = get_languages(id)
-    commits = json.dumps(Commit.total_by_team(owner=group.name))
+    commits = Commit.total_by_team(owner=group.name)
+    for key in list(commits.keys()):
+        if key not in (2014, 2015):
+            commits.pop(key)
 
-    return render_template('group.html', users=users, group=group, languages=languages, commits=commits)
+    return render_template('group.html', users=users, group=group, languages=languages, commits=json.dumps(commits))

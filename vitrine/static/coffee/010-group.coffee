@@ -37,7 +37,7 @@ commits2Stackbars = (data) ->
           data[year][month][proj]
         ]
   chartData = Object.keys(projects).map((key) ->
-    projects[key]
+    {label: key, data: projects[key]}
   )
   chartData
 
@@ -47,7 +47,8 @@ plotCommitsChart = (placeholder, data) ->
     series:
       stack: 0
       bars:
-        fill: 1.0
+        fill: 1
+        align: 'center'
         show: true
         barWidth: 0.6
         lineWidth: 0
@@ -63,22 +64,6 @@ plotCommitsChart = (placeholder, data) ->
     grid:
       borderWidth: 0
       aboveData: true
-      markings: [
-        {
-          color: '#E5E5E5'
-          lineWidth: 1
-          xaxis:
-            from: 4
-            to: 4
-        }
-        {
-          color: '#E5E5E5'
-          lineWidth: 1
-          xaxis:
-            from: 8
-            to: 8
-        }
-      ]
   return
 
 plotSkillSet('#placeholder', d5)
