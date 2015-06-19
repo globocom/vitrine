@@ -61,8 +61,8 @@ docs/_build/
 node_modules
 vitrine/static/.webassets-manifest
 vitrine/static/images/common-*.png
-vitrine/static/css
-vitrine/static/js
+vitrine/static/css/css_all*
+vitrine/static/js/js_all*
 vitrine/config/local.conf
 vitrine/include
 vitrine/man
