@@ -14,6 +14,7 @@ from flask import Blueprint, render_template, current_app
 
 from vitrine.models.team import Team
 from vitrine.models.commit import Commit
+from vitrine.worker import GROUP_IDS
 
 import gitlab
 
@@ -62,7 +63,9 @@ def get_all_groups():
 
 @mod.route("/")
 def index():
-    groups = get_all_groups()
+    groups = []
+    for id in GROUP_IDS:
+        groups.append(get_group(id))
     return render_template('index.html', dt=datetime.now().strftime("%d %M %Y - %H %m %s"), groups=groups)
 
 
