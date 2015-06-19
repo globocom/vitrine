@@ -168,7 +168,18 @@ class CommitsWorker(Shepherd):
 
         for project in _get_projects(self.gl):
             for page in range(1, 20):  # Missing total commits...
-                for cmt in project.Commit(page=page, per_page=100):
+                try:
+                    commits = project.Commit(page=page, per_page=100)
+                except gitlab.GitlabListError as e:
+                    logging.error(
+                        'Error reading commit for project %s (%d), page %d: %s',
+                        project.namespace.name,
+                        project.id,
+                        page,
+                        e
+                    )
+                    continue
+                for cmt in commits:
 
                     try:
                         commit = Commit.objects.get(commit_id=cmt.id)
