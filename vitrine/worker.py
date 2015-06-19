@@ -14,7 +14,6 @@ import logging
 import gitlab
 import mongoengine
 import collections
-import requests
 
 from threading import Semaphore, Thread
 
@@ -25,7 +24,6 @@ from dateutil import parser
 
 from vitrine import __version__, config
 from vitrine.models.commit import Commit
-from vitrine.models.user import User
 
 
 IGNORE = {
