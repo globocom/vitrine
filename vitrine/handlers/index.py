@@ -44,7 +44,18 @@ def get_group(group_id):
 
 def get_all_groups():
     gl = auth()
-    return gl.Group()
+    groups = []
+
+    page = 0
+    while True:
+        g = gl.Group(page=page)
+        if g:
+            groups += g
+        else:
+            break
+        page += 1
+
+    return groups
 
 
 @mod.route("/")
