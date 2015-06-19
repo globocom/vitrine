@@ -19,7 +19,7 @@ class Commit(mongo.Document):
     author_name = mongo.StringField(required=True)
     author_email = mongo.StringField(required=True)
     created_at = mongo.DateTimeField(required=True)
-    team_name = mongo.StringField(required=True)
+    owner = mongo.StringField(required=True)
     project_id = mongo.IntField()
     project_name = mongo.StringField(required=True)
     message = mongo.StringField()

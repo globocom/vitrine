@@ -53,7 +53,10 @@ class CommitWorker(Shepherd):
 
     def initialize(self):
         mongoengine.connect(
-            self.config.MONGODB_DB, host=self.config.MONGODB_HOST)
+            self.config.MONGO_DB,
+            host=self.config.MONGO_HOST,
+            username=self.config.MONGO_USERNAME,
+            password=self.config.MONGO_PASSWORD)
 
     def get_description(self):
         return 'Commit worker {}'.format(__version__)
@@ -67,13 +70,15 @@ class CommitWorker(Shepherd):
         logging.info('Loading projects from gitlab...')
 
         for project in gitlab.Project():
-            for cmt in project.Commit():
+            for cmt in project.Commit(per_page=100):
 
                 try:
                     commit = Commit.objects.get(commit_id=cmt.id)
 
-                    # Commit already exists.
                 except:
+
+                    # Object commit does not exists.
+
                     commit = Commit()
                     commit.commit_id = cmt.id
                     commit.short_id = cmt.short_id
@@ -81,7 +86,7 @@ class CommitWorker(Shepherd):
                     commit.author_name = cmt.author_name
                     commit.author_email = cmt.author_email
                     commit.created_at = parser.parse(cmt.created_at)
-                    commit.team_name = "team"
+                    commit.owner = project.namespace.name
                     commit.project_id = cmt.project_id
                     commit.project_name = project.name
                     commit.save()
@@ -96,8 +101,9 @@ def commit():
     worker = CommitWorker(sys.argv[1:])
     worker.run()
 
+
 def langstats():
     worker = LangStatsWorker(sys.argv[1:])
     worker.run()
 
-requests.packages.urllib3.disable_warnings()
+commit()
