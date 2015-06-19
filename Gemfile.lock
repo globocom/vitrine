@@ -72,6 +72,3 @@ DEPENDENCIES
   guard
   guard-livereload
   terminal-notifier-guard
-
-BUNDLED WITH
-   1.10.4
