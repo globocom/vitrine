@@ -60,6 +60,13 @@ IGNORE = {
 GROUP_IDS = [9, 33, 88, 15, 14, 102]
 
 
+def _get_projects(gl):
+    projects = []
+    for group_id in GROUP_IDS:
+        projects.extend(gl.Group(group_id).projects)
+    return projects
+
+
 class LangStatsWorker(Shepherd):
 
     def initialize(self):
@@ -100,35 +107,22 @@ class LangStatsWorker(Shepherd):
             self._walk(current_node, project, extensions, '')
             return extensions
 
-    def _process_project(self, project, s):
-        try:
-            team = Team.objects(team_id=project.namespace.id).first()
-            if not team:
-                team = Team(team_id=project.namespace.id)
-            for (lang, total) in self._lang_stats(project).items():
-                if lang in team.languages:
-                    team.languages[lang] += total
-                else:
-                    team.languages[lang] = total
-            team.save()
-        finally:
-            s.release()
+    def _process_project(self, project):
+        team = Team.objects(team_id=project.namespace.id).first()
+        if not team:
+            team = Team(team_id=project.namespace.id)
+        for (lang, total) in self._lang_stats(project).items():
+            if lang in team.languages:
+                team.languages[lang] += total
+            else:
+                team.languages[lang] = total
+        team.save()
 
     def do_work(self):
         logging.debug('Started doing work...')
-        page = 0
-        s = Semaphore(30)
-        while True:
-            t0 = time.time()
-            projects = self.gl.all_projects(page=page)
-            if not projects:
-                break
-            else:
-                page += 1
-            for project in projects:
-                s.acquire()
-                Thread(target=lambda: self._process_project(project, s)).start()
-            print "Rate: %s" % (len(projects)/(time.time()-t0))
+        page = 1
+        for project in _get_projects(self.gl):
+            self._process_project(project)
         logging.debug('Work done!')
 
 
@@ -184,4 +178,4 @@ def langstats():
     worker = LangStatsWorker(sys.argv[1:])
     worker.run()
 
-commit()
+#commit()
