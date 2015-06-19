@@ -1,4 +1,33 @@
-var commits2Stackbars, plotCommitsChart;
+var commits2Stackbars, plotCommitsChart, plotSkillSet;
+
+plotSkillSet = function(placeholder, data) {
+  return $.plot(placeholder, data, {
+    grid: {
+      borderWidth: 0
+    },
+    series: {
+      bars: {
+        show: true,
+        barWidth: 0.5,
+        align: 'center',
+        fill: 1
+      }
+    },
+    xaxis: {
+      mode: 'categories',
+      tickLength: 0,
+      font: {
+        size: 12,
+        family: 'HelveticaNeue, Arial, sans-serif',
+        color: '#474D57'
+      }
+    },
+    yaxis: {
+      show: false,
+      tickLength: 0
+    }
+  });
+};
 
 commits2Stackbars = function(data) {
   var chartData, item, month, proj, projects, year;
@@ -59,3 +88,7 @@ plotCommitsChart = function(placeholder, data) {
     }
   });
 };
+
+plotSkillSet('#placeholder', d5);
+
+plotCommitsChart('#activity_placeholder', commits);

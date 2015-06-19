@@ -90,50 +90,17 @@
               </div><!-- /.box-body -->
             </div>
           </div>
- 
+
           <script type="text/javascript">
 
+            var d5 = [
+                {% for lang in languages %}
+                    {data: [["{{lang[0][0]}}", {{lang[1]}}]], color: "{{lang[0][1]}}" },
+                {% endfor %}
+            ];
 
-            $(function() {
+            var commits = {{commits|safe}};
 
-              var d5 = [
-                  {% for lang in languages %}
-                      {data: [["{{lang[0][0]}}", {{lang[1]}}]], color: "{{lang[0][1]}}" },
-                  {% endfor %}
-              ];
-
-
-              var stack = true,
-                bars = true,
-                lines = false,
-                steps = false;
-
-
-                $.plot("#placeholder", d5, {
-                    grid: {
-                      borderWidth: 0
-                    },
-                    series: {
-                      bars: {
-                        show: true,
-                        barWidth: 0.5,
-                        align: "center",
-                        fill: 1
-                      }
-                    },
-                    xaxis: {
-                      mode: "categories",
-                      tickLength: 0,
-                      font: {size: 12, family: "HelveticaNeue, Arial, sans-serif", color: "#474D57"}
-                    },
-                    yaxis: {
-                      show: false,
-                      tickLength: 0
-                    }
-                  });
-
-            });
-            plotCommitsChart('#activity_placeholder', {{commits|safe}});
-            </script>
+          </script>
 
 {% endblock content %}
