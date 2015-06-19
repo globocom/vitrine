@@ -89,5 +89,8 @@ tox:
 #docs:
 	#@cd vitrine/docs && make html && open _build/html/index.html
 
-run: mongo
+light_run:
 	@vitrine -c vitrine/config/local.conf --debug
+
+run: mongo light_run
+
