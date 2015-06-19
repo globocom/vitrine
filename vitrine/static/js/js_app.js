@@ -1,4 +1,4 @@
-(function()
+(function() {
 
     "use strict";
 
@@ -16,7 +16,7 @@
             }
         }
         var chartData = Object.keys(projects).map(function(key) {
-            return projects[key]
+            return projects[key];
         });
         return chartData;
     };
