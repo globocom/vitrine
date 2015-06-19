@@ -92,6 +92,8 @@ EXTENSION_MAP = {
     'less': 'Less',
     'sql': 'SQL',
     'haml': 'Haml',
+    'php': 'PHP',
+    'jsp': 'JavaServer Pages',
 }
 
 
