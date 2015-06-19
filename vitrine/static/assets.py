@@ -8,6 +8,7 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2015, Globo.com <talentos@corp.globo.com>
 
+import logging
 import os
 import re
 
@@ -80,7 +81,9 @@ def init_app(app):
         *js_files,
         output=js_out
     )
-    assets_env.register('js_all', js_all_bundle)
+    asset = assets_env.register('js_all', js_all_bundle)
+
+    logging.info('Version: %s', asset.get_version())
 
     css_out = 'css/css_all.%(version)s.css'
     if app.debug:
