@@ -13,6 +13,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, current_app
 
 from vitrine.models.team import Team
+from vitrine.models.commit import Commit
 
 import gitlab
 
@@ -106,5 +107,6 @@ def group(id):
     users = get_group_users(id);
     group = get_group(id);
     languages = get_languages(id)
+    commits = Commit.total_by_team(owner=group.name)
 
-    return render_template('group.html', users=users, group=group, languages=languages)
+    return render_template('group.html', users=users, group=group, languages=languages, commits=commits)
