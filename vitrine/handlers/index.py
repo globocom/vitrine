@@ -19,10 +19,14 @@ import gitlab
 
 mod = Blueprint('index', __name__)
 
-
-def get_group_users(group_id):
+def auth():
     gl = gitlab.Gitlab(current_app.config.get('GITLAB_BASE_URL'), current_app.config.get('APP_SECRET_KEY'))
     gl.auth()
+    return gl
+
+
+def get_group_users(group_id):
+    gl = auth()
 
     members = gl.Group(group_id).Member()
     users = []
@@ -33,7 +37,20 @@ def get_group_users(group_id):
     return users
 
 
+def get_group(group_id):
+    gl = auth()
+    return gl.Group(group_id)
+
+
 @mod.route("/")
 def index():
     users = User.objects.all()
     return render_template('index.html', dt=datetime.now().strftime("%d %M %Y - %H %m %s"), users=users)
+
+
+@mod.route("/groups/<id>")
+def group(id):
+    users = get_group_users(id);
+    group = get_group(id);
+
+    return render_template('group.html', users=users, group=group)

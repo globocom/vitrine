@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="hero-unit">
+        <h1>{{ group.name }}</h1>
+        <h2>{{ group.projects[0].namespace.description}}</h2>
+        <img src="http://gitlab.globoi.com{{ group.projects[0].namespace.avatar.url}}">
+
+        <p class="statement">Members:</p>
+        <ul class="check">
+            {% for user in users %}
+              <li>{{ user.username }}</li>
+              <img src="{{ user.avatar_url}}">
+            {% endfor %}
+        </ul>
+
+        <h4>Currently {{ users|length }} group members.</h4>
+
+    </div>
+{% endblock content %}
