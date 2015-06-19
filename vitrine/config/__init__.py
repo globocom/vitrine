@@ -23,7 +23,8 @@ Config.define('WEBASSETS_CACHE_PATH', '/tmp/vitrine/.webassets_cache', 'WebAsset
 
 Config.define('DBAAS_MONGODB_ENDPOINT', 'mongodb://localhost:3333/vitrine', 'Host for the MongoDB database', 'MongoDB')
 
-Config.define('GITLAB_BASE_URL', None, 'Base URL for gitlab', 'Gitlab')
+Config.define('GITLAB_BASE_URL', None, 'Base URL for Gitlab', 'Gitlab')
+Config.define('GITLAB_TOKEN', None, 'Token to access Gitlab API', 'Gitlab')
 
 
 def init_app(app, path=None):

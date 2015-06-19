@@ -135,7 +135,7 @@ class CommitsWorker(Shepherd):
     def do_work(self):
 
         logging.debug('Started doing work...')
-        gitlab = Gitlab(self.config.GITLAB_URL, self.config.GITLAB_TOKEN)
+        gitlab = Gitlab(self.config.GITLAB_BASE_URL, self.config.GITLAB_TOKEN)
         gitlab.auth()
 
         logging.info('Loading projects from Gitlab...')
