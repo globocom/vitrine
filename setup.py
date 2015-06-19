@@ -56,9 +56,9 @@ A vitrine to showcase projects developed by Globo.com
         'Flask-Script>=2.0.0,<2.1.0',
         'Flask>=0.10.0,<0.11.0',
         'pymongo<3.0.0',
+        'python-dateutil>=2.4.2,<2.5.0',
         'python-gitlab',
         'sheep<0.4.0',
-        'python-dateutil<=2.4.2'
     ],
     extras_require={
         'tests': tests_require,
