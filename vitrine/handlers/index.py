@@ -17,6 +17,7 @@ from vitrine.models.commit import Commit
 from vitrine.worker import GROUP_IDS
 
 import gitlab
+import json
 
 
 mod = Blueprint('index', __name__)
@@ -126,6 +127,6 @@ def group(id):
     users = get_group_users(id)
     group = get_group(id)
     languages = get_languages(id)
-    commits = Commit.total_by_team(owner=group.name)
+    commits = json.dumps(Commit.total_by_team(owner=group.name))
 
     return render_template('group.html', users=users, group=group, languages=languages, commits=commits)
