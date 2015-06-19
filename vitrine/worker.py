@@ -8,18 +8,14 @@
 # http://www.opensource.org/licenses/MIT-license
 # Copyright (c) 2015, Globo.com <talentos@corp.globo.com>
 
-import time
 import sys
 import logging
 import gitlab
 import mongoengine
 import collections
 
-from threading import Semaphore, Thread
-
 from models.team import Team
 from sheep import Shepherd
-from gitlab import Gitlab
 from dateutil import parser
 
 from vitrine import __version__, config
@@ -121,7 +117,6 @@ class LangStatsWorker(Shepherd):
 
     def do_work(self):
         logging.debug('Started doing work...')
-        page = 1
         for project in _get_projects(self.gl):
             self._process_project(project)
         logging.debug('Work done!')
