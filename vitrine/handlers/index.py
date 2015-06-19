@@ -102,9 +102,15 @@ def get_languages(id):
     if team:
         total = sum(v for (k, v) in team.languages.items() if k in EXTENSION_MAP)
         languages = []
-        for ext, count in sorted(team.languages.items(), key=lambda x: x[1]):
-            if ext in EXTENSION_MAP:
-                languages.append((EXTENSION_MAP[ext], float(count) / total))
+        other = 0
+        for i, (ext, count) in enumerate(sorted(team.languages.items(), key=lambda x: x[1], reverse=True)):
+            if i < 4:
+                if ext in EXTENSION_MAP:
+                    languages.append((EXTENSION_MAP[ext], float(count) / total))
+            elif ext in EXTENSION_MAP:
+                other += float(count)
+        if other:
+            languages.append(('Outras', other / total))
         return languages
     else:
         return []

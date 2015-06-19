@@ -398,18 +398,12 @@
 
   $(function() {
 
-    var d4 = {
-      data: [["Python", 45],["HTML", 20],["CSS", 10]],
-      color: "#4A90E2"
-    };
-
-    var d5 = [{data: [["Python", 45]], color: "#4A90E2" },
-              {data: [["HTML", 20]], color: "#F5A623"},
-              {data: [["CSS", 10]], color: "#50E3C2"},
-              {data: [["JS", 5]], color: "#7ED321"},
-              {data: [["Go", 3.3]], color: "#417505"},
-              {data: [["Other", 6.7]], color: "#9B9B9B"}
-              ];
+    {% set colors = ["#4A90E2", "#F5A623", "#50E3C2", "#7ED321", "#417505", "#9B9B9B"] %}
+    var d5 = [
+        {% for lang in languages %}
+            {data: [["{{lang[0]}}", {{lang[1]}}]], color: "{{colors[loop.index]}}" },
+        {% endfor %}
+    ];
 
 
     var stack = true,
