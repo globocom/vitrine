@@ -12,7 +12,7 @@ from datetime import datetime
 
 from flask import Blueprint, render_template, current_app
 
-from vitrine.models.user import User
+from vitrine.models.team import Team
 
 import gitlab
 
@@ -64,9 +64,22 @@ def index():
     return render_template('index.html', dt=datetime.now().strftime("%d %M %Y - %H %m %s"), groups=groups)
 
 
+def get_languages():
+    team = Team.objects(team_id=id).first()
+    if team:
+        total = sum(team.languages.values())
+        languages = {}
+        for ext, count in team.languages:
+            languages[ext] = float(count) / total
+        return languages
+    else:
+        return {}
+
+
 @mod.route("/groups/<id>")
 def group(id):
     users = get_group_users(id);
     group = get_group(id);
+    languages = get_languages()
 
-    return render_template('group.html', users=users, group=group)
+    return render_template('group.html', users=users, group=group, languages=languages)
