@@ -455,8 +455,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     var d4 = {
       data: [["Python", 45],["HTML", 20],["CSS", 10]],
-      color: "#00cccc"
+      color: "#4A90E2"
     };
+
+    var d5 = [{data: [["Python", 45]], color: "#4A90E2" },
+              {data: [["HTML", 20]], color: "#F5A623"},
+              {data: [["CSS", 10]], color: "#50E3C2"},
+              {data: [["JS", 5]], color: "#7ED321"},
+              {data: [["Go", 3.3]], color: "#417505"},
+              {data: [["Other", 6.7]], color: "#9B9B9B"}
+              ];
 
 
     var stack = true,
@@ -465,21 +473,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
       steps = false;
 
     
-      $.plot("#placeholder", [d4], {
+      $.plot("#placeholder", d5, {
           grid: {
-            borderWidth: 1,
-            borderColor: "#f3f3f3",
-            tickColor: "#f3f3f3"
+            borderWidth: 0
           },
           series: {
             bars: {
               show: true,
               barWidth: 0.5,
-              align: "center"
+              align: "center",
+              fill: 1
             }
           },
           xaxis: {
             mode: "categories",
+            tickLength: 0,
+            font: {size: 12, family: "HelveticaNeue, Arial, sans-serif", color: "#474D57"}
+          },
+          yaxis: {
+            show: false,
             tickLength: 0
           }
         });
