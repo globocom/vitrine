@@ -13,6 +13,7 @@ import logging
 import gitlab
 import mongoengine
 import collections
+import requests
 
 from models.team import Team
 from sheep import Shepherd
@@ -20,6 +21,9 @@ from dateutil import parser
 
 from vitrine import __version__, config
 from vitrine.models.commit import Commit
+
+
+requests.packages.urllib3.disable_warnings()
 
 
 IGNORE = {
