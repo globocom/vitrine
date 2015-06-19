@@ -118,8 +118,8 @@ def get_languages(id):
 
 @mod.route("/groups/<id>")
 def group(id):
-    users = get_group_users(id);
-    group = get_group(id);
+    users = get_group_users(id)
+    group = get_group(id)
     languages = get_languages(id)
     commits = Commit.total_by_team(owner=group.name)
 
