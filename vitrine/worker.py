@@ -68,8 +68,10 @@ def _get_projects(gl):
 class LangStatsWorker(Shepherd):
 
     def initialize(self):
-        self.gl = gitlab.Gitlab(self.config.GITLAB_BASE_URL, self.config.APP_SECRET_KEY)
-        mongoengine.connect(config.Config().get('MONGODB_DB'), host=config.Config().get('MONGODB_HOST'))
+        self.gl = gitlab.Gitlab(
+            self.config.GITLAB_BASE_URL, self.config.APP_SECRET_KEY)
+        mongoengine.connect(
+            config.Config().get('MONGODB_DB'), host=config.Config().get('MONGODB_HOST'))
         self.gl.auth()
 
     def get_description(self):
@@ -77,7 +79,7 @@ class LangStatsWorker(Shepherd):
 
     def _get_lines(self, project, path):
         try:
-            return 1#project.blob('master', filepath=path).count('\n')
+            return 1  # project.blob('master', filepath=path).count('\n')
         except:
             print project.id, path
             return 1
@@ -89,11 +91,13 @@ class LangStatsWorker(Shepherd):
             else:
                 new_path = file_['name']
             if file_['type'] == 'tree':
-                self._walk(project.tree(path=new_path, ref_name='master'), project, extensions, new_path)
+                self._walk(
+                    project.tree(path=new_path, ref_name='master'), project, extensions, new_path)
             else:
                 exts = file_['name'].split('.')
                 if len(exts) > 1 and exts[0] and exts[-1].lower() not in IGNORE:
-                    extensions[exts[-1].lower()] += self._get_lines(project, new_path)
+                    extensions[
+                        exts[-1].lower()] += self._get_lines(project, new_path)
 
     def _lang_stats(self, project):
         extensions = collections.defaultdict(lambda: 0)
@@ -127,6 +131,9 @@ class LangStatsWorker(Shepherd):
 class CommitsWorker(Shepherd):
 
     def initialize(self):
+
+        self.gl = gitlab.Gitlab(
+            self.config.GITLAB_BASE_URL, self.config.APP_SECRET_KEY)
         mongoengine.connect(host=self.config.DBAAS_MONGODB_ENDPOINT)
 
     def get_description(self):
@@ -134,33 +141,29 @@ class CommitsWorker(Shepherd):
 
     def do_work(self):
 
-        logging.debug('Started doing work...')
-        gitlab = Gitlab(self.config.GITLAB_BASE_URL, self.config.GITLAB_TOKEN)
-        gitlab.auth()
-
         logging.info('Loading projects from Gitlab...')
 
-        for project in gitlab.Project():
-            for cmt in project.Commit(per_page=100):
+        for project in _get_projects(self.gl):
+            for page in range(1, 20):  # Missing total commits...
+                for cmt in project.Commit(page=page, per_page=100):
 
-                try:
-                    commit = Commit.objects.get(commit_id=cmt.id)
+                    try:
+                        commit = Commit.objects.get(commit_id=cmt.id)
 
-                except:
+                    except:
 
-                    # Object commit does not exists.
-
-                    commit = Commit()
-                    commit.commit_id = cmt.id
-                    commit.short_id = cmt.short_id
-                    commit.title = cmt.title
-                    commit.author_name = cmt.author_name
-                    commit.author_email = cmt.author_email
-                    commit.created_at = parser.parse(cmt.created_at)
-                    commit.owner = project.namespace.name
-                    commit.project_id = cmt.project_id
-                    commit.project_name = project.name
-                    commit.save()
+                        # Object commit does not exists.
+                        commit = Commit()
+                        commit.commit_id = cmt.id
+                        commit.short_id = cmt.short_id
+                        commit.title = cmt.title
+                        commit.author_name = cmt.author_name
+                        commit.author_email = cmt.author_email
+                        commit.created_at = parser.parse(cmt.created_at)
+                        commit.owner = project.namespace.name
+                        commit.project_id = cmt.project_id
+                        commit.project_name = project.name
+                        commit.save()
 
 
 def commits():
