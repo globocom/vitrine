@@ -29,9 +29,7 @@ def auth():
     return gl
 
 
-def get_group_users(group_id):
-    gl = auth()
-
+def get_group_users(gl, group_id):
     members = gl.Group(group_id).Member()
     users = []
 
@@ -43,13 +41,16 @@ def get_group_users(group_id):
     return users
 
 
-def get_group(group_id):
-    gl = auth()
-    return gl.Group(group_id)
+_group_cache = {}
 
 
-def get_all_groups():
-    gl = auth()
+def get_group(gl, group_id):
+    if group_id not in _group_cache:
+        _group_cache[group_id] = gl.Group(group_id)
+    return _group_cache[group_id]
+
+
+def get_all_groups(gl):
     groups = []
 
     page = 1
@@ -66,9 +67,10 @@ def get_all_groups():
 
 @mod.route("/")
 def index():
+    gl = auth()
     groups = []
     for id in GROUP_IDS:
-        groups.append(get_group(id))
+        groups.append(get_group(gl, id))
     return render_template('index.html', dt=datetime.now().strftime("%d %M %Y - %H %m %s"), groups=groups)
 
 
@@ -124,8 +126,9 @@ def get_languages(id):
 
 @mod.route("/groups/<id>")
 def group(id):
-    users = get_group_users(id)
-    group = get_group(id)
+    gl = auth()
+    users = get_group_users(gl, id)
+    group = get_group(gl, id)
     languages = get_languages(id)
     commits = json.dumps(Commit.total_by_team(owner=group.name))
 
