@@ -9,7 +9,6 @@
 # Copyright (c) 2015, Globo.com <talentos@corp.globo.com>
 
 from vitrine.db import mongo
-from mongoengine.queryset.visitor import Q
 
 
 class Commit(mongo.Document):
@@ -32,13 +31,13 @@ class Commit(mongo.Document):
         commits = Commit.objects(owner=owner)
         for commit in commits:
 
-            if not commit.created_at.year in result:
+            if commit.created_at.year not in result:
                 result[commit.created_at.year] = {}
 
-            if not commit.created_at.month in result[commit.created_at.year]:
+            if commit.created_at.month not in result[commit.created_at.year]:
                 result[commit.created_at.year][commit.created_at.month] = {}
 
-            if not commit.project_name in result[
+            if commit.project_name not in result[
                     commit.created_at.year][commit.created_at.month]:
 
                 result[commit.created_at.year][
