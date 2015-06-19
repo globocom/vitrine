@@ -59,10 +59,6 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 node_modules
-vitrine/static/.webassets-manifest
-vitrine/static/images/common-*.png
-vitrine/static/css/css_all*
-vitrine/static/js/js_all*
 vitrine/config/local.conf
 vitrine/include
 vitrine/man
@@ -70,3 +66,9 @@ vitrine/pip-selfcheck.json
 vitrine/share
 
 *.swp
+
+# Statics
+vitrine/static/.webassets-manifest
+vitrine/static/images/common-*.png
+vitrine/static/css
+vitrine/static/js
