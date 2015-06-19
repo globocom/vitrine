@@ -46,7 +46,7 @@ def get_all_groups():
     gl = auth()
     groups = []
 
-    page = 0
+    page = 1
     while True:
         g = gl.Group(page=page)
         if g:
@@ -64,22 +64,22 @@ def index():
     return render_template('index.html', dt=datetime.now().strftime("%d %M %Y - %H %m %s"), groups=groups)
 
 
-def get_languages():
+def get_languages(id):
     team = Team.objects(team_id=id).first()
     if team:
         total = sum(team.languages.values())
-        languages = {}
+        languages = []
         for ext, count in team.languages:
-            languages[ext] = float(count) / total
+            languages.append((ext, float(count) / total))
         return languages
     else:
-        return {}
+        return []
 
 
 @mod.route("/groups/<id>")
 def group(id):
     users = get_group_users(id);
     group = get_group(id);
-    languages = get_languages()
+    languages = get_languages(id)
 
     return render_template('group.html', users=users, group=group, languages=languages)

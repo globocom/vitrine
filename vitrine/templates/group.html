@@ -6,6 +6,14 @@
         <h2>{{ group.projects[0].namespace.description}}</h2>
         <img src="http://gitlab.globoi.com{{ group.projects[0].namespace.avatar.url}}">
 
+        <p class="statement">Skillset:</p>
+        <ul class="check">
+            {% for language in languages %}
+              <li>{{ language[0] }} = {{language[1]}}</li>
+              <img src="{{ user.avatar_url}}">
+            {% endfor %}
+        </ul>
+
         <p class="statement">Members:</p>
         <ul class="check">
             {% for user in users %}
