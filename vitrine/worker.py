@@ -133,7 +133,7 @@ class CommitsWorker(Shepherd):
     def initialize(self):
 
         self.gl = gitlab.Gitlab(
-            self.config.GITLAB_BASE_URL, self.config.APP_SECRET_KEY)
+            self.config.GITLAB_BASE_URL, self.config.GITLAB_TOKEN)
         mongoengine.connect(host=self.config.DBAAS_MONGODB_ENDPOINT)
 
     def get_description(self):

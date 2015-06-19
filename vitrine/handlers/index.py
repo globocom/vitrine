@@ -19,8 +19,9 @@ import gitlab
 
 mod = Blueprint('index', __name__)
 
+
 def auth():
-    gl = gitlab.Gitlab(current_app.config.get('GITLAB_BASE_URL'), current_app.config.get('APP_SECRET_KEY'))
+    gl = gitlab.Gitlab(current_app.config.get('GITLAB_BASE_URL'), current_app.config.get('GITLAB_TOKEN'))
     gl.auth()
     return gl
 
