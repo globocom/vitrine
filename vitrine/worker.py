@@ -69,7 +69,7 @@ class LangStatsWorker(Shepherd):
 
     def initialize(self):
         self.gl = gitlab.Gitlab(
-            self.config.GITLAB_BASE_URL, self.config.APP_SECRET_KEY)
+            self.config.GITLAB_BASE_URL, self.config.GITLAB_TOKEN)
         mongoengine.connect(
             config.Config().get('MONGODB_DB'), host=config.Config().get('MONGODB_HOST'))
         self.gl.auth()
