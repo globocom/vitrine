@@ -256,6 +256,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
         display: inline-block;
         background-color: #1B86BD;
       }
+
+      .valueLabels {
+        font-family: HelveticaNeue, Arial, sans-serif;
+        font-size: 12px;
+        color: #474D57;
+      }
+      div.valueLabelLight {
+              border:none;
+              position:absolute;
+      }
+      div.valueLabel {
+              position:absolute;
+              border:none;
+      }
     </style>
   </head>
   <!--
@@ -447,6 +461,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="plugins/flot/jquery.flot.pie.min.js" type="text/javascript"></script>
     <script src="plugins/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
     <script src="plugins/flot/jquery.flot.stack.min.js" type="text/javascript"></script>
+    <script src="plugins/flot/jquery.flot.valuelabels.js" type="text/javascript"></script>
+    
 
     <script type="text/javascript">
 
@@ -480,9 +496,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
           series: {
             bars: {
               show: true,
-              barWidth: 0.5,
+              barWidth: 0.6,
               align: "center",
               fill: 1
+            },
+            valueLabels: {
+              show: true,
+              font: "12px HelveticaNeue",
+              yoffset: -5,
+              labelFormatter: function (v) { return v + "%" },
+              align: "center"
             }
           },
           xaxis: {
@@ -492,6 +515,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           },
           yaxis: {
             show: false,
+            min: 0,
+            max: 100,
             tickLength: 0
           }
         });
