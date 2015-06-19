@@ -9,6 +9,7 @@
 # Copyright (c) 2015, Globo.com <talentos@corp.globo.com>
 
 from vitrine.db import mongo
+from mongoengine.queryset.visitor import Q
 
 
 class Commit(mongo.Document):
@@ -23,3 +24,27 @@ class Commit(mongo.Document):
     project_id = mongo.IntField()
     project_name = mongo.StringField(required=True)
     message = mongo.StringField()
+
+    @staticmethod
+    def total_by_team(owner=None):
+
+        result = {}
+        commits = Commit.objects(owner=owner)
+        for commit in commits:
+
+            if not commit.created_at.year in result:
+                result[commit.created_at.year] = {}
+
+            if not commit.created_at.month in result[commit.created_at.year]:
+                result[commit.created_at.year][commit.created_at.month] = {}
+
+            if not commit.project_name in result[
+                    commit.created_at.year][commit.created_at.month]:
+
+                result[commit.created_at.year][
+                    commit.created_at.month][commit.project_name] = 0
+
+            result[commit.created_at.year][
+                commit.created_at.month][commit.project_name] += 1
+
+        return result
