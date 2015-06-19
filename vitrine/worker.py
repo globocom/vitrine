@@ -72,7 +72,7 @@ IGNORE = {
     'rdf',
 }
 
-GROUP_IDS = [9, 33, 88, 15, 14, 102]
+GROUP_IDS = [46, 13, 11, 65, 302, 80, 9, 33, 88, 15, 14, 102]
 
 
 def _get_projects(gl):
