@@ -86,20 +86,25 @@
 
       .team-avatar {
         position: relative;
-        display: inline-block;
+        display: block;
         width: 120px;
         height: 120px;
         background: #FFFFFF;
         border: 1px solid #E5E5E5;
         border-radius: 4px;
         overflow: hidden;
+        vertical-align: middle;
       }
 
       .team-avatar img {
-        width: 105%;
-        left: 50%;
-        margin-left: -60px;
-        position:absolute;
+        position: absolute;
+        top: -9999px;
+        bottom: -9999px;
+        left: -9999px;
+        right: -9999px;
+        margin: auto;
+        max-width: 100%;
+        max-height: 100%;
       }
 
       .table-cell {
@@ -293,8 +298,10 @@
                 <h3 class="box-title-custom">Info</h3>
               </div>
               <div class="box-body">
-                <div class="table-cell team-avatar">
-                  <img src="http://gitlab.globoi.com{{ group.projects[0].namespace.avatar.url}}"/>
+                <div class="table-cell">
+                  <div class="team-avatar">
+                    <img src="http://gitlab.globoi.com{{ group.projects[0].namespace.avatar.url}}"/>
+                  </div>
 
                 </div>
                 <div class="table-cell team-meta">
