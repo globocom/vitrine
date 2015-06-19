@@ -102,15 +102,19 @@
         position:absolute;
       }
 
+      .table-cell {
+        display: table-cell;
+      }
+
       .team-meta {
         position: relative;
-        display: inline-block;
         height: 120px;
         vertical-align: top;
         margin-left: 15px;
       }
 
       .team-name {
+        margin-left: 15px;
         font-family: HelveticaNeue, Arial, sans-serif;
         font-size: 30px;
         color: #333333;
@@ -118,6 +122,7 @@
       }
 
       .team-description {
+        margin-left: 15px;
         font-family: HelveticaNeue-Thin, Arial, sans-serif;
         font-weight: 150;
         font-size: 19px;
@@ -288,11 +293,11 @@
                 <h3 class="box-title-custom">Info</h3>
               </div>
               <div class="box-body">
-                <div class="team-avatar">
+                <div class="table-cell team-avatar">
                   <img src="http://gitlab.globoi.com{{ group.projects[0].namespace.avatar.url}}"/>
 
                 </div>
-                <div class="team-meta">
+                <div class="table-cell team-meta">
                     <div class="team-name">{{ group.name }}</div>
                     <div class="team-description">{{ group.projects[0].namespace.description}}</div>
                   </div>
