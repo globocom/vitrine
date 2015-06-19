@@ -38,6 +38,7 @@
     "commit": "406de4e708e84ed0abbc08b09870828254a6b2ef"
   },
   "_source": "git://github.com/almasaeed2010/AdminLTE.git",
-  "_target": "~2.1.0",
-  "_originalSource": "admin-lte"
+  "_target": "~2.1.2",
+  "_originalSource": "admin-lte",
+  "_direct": true
 }
