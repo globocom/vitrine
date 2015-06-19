@@ -86,6 +86,12 @@ EXTENSION_MAP = {
     'scala': 'Scala',
     'erl': 'Erlang',
     'hs': 'Haskell',
+    'coffee': 'Coffee',
+    'scss': 'Scss',
+    'sass': 'Sass',
+    'less': 'Less',
+    'sql': 'SQL',
+    'haml': 'Haml',
 }
 
 

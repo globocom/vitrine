@@ -24,6 +24,7 @@ from vitrine.models.commit import Commit
 
 IGNORE = {
     'conf',
+    'config',
     'txt',
     'lock',
     'project',
@@ -49,6 +50,19 @@ IGNORE = {
     'unfiltered',
     'setup',
     'init',
+    'class',
+    'jar',
+    'swf',
+    'bz2',
+    'zip',
+    'sqlite',
+    'bkp',
+    'war',
+    'pyc',
+    'db',
+    'example',
+    'egg',
+    'vcproj',
 }
 
 GROUP_IDS = [9, 33, 88, 15, 14, 102]
@@ -69,6 +83,7 @@ class LangStatsWorker(Shepherd):
         mongoengine.connect(host=self.config.DBAAS_MONGODB_ENDPOINT)
         self.gl.auth()
         self.runs = 0
+        self.teams_seen = set()
 
     def get_description(self):
         return 'LangStats worker {}'.format(__version__)
@@ -107,6 +122,11 @@ class LangStatsWorker(Shepherd):
 
     def _process_project(self, project):
         team = Team.objects(team_id=project.namespace.id).first()
+        # We reset team statistics when we first encounter it
+        if project.namespace.id not in self.teams_seen:
+            team.delete()
+            team = None
+            self.teams_seen.add(project.namespace.id)
         if not team:
             team = Team(team_id=project.namespace.id)
         for (lang, total) in self._lang_stats(project).items():
@@ -117,13 +137,12 @@ class LangStatsWorker(Shepherd):
         team.save()
 
     def do_work(self):
-        if not self.runs:
-            logging.debug('Started doing work...')
-            page = 1
-            for project in _get_projects(self.gl):
-                self._process_project(project)
-            logging.debug('Work done!')
-        self.runs += 1
+        print 'Here we go again!'
+        logging.debug('Started doing work...')
+        for project in _get_projects(self.gl):
+            self._process_project(project)
+        logging.debug('Work done!')
+        self.teams_seen = set()
 
 
 class CommitsWorker(Shepherd):
