@@ -68,3 +68,5 @@ vitrine/include
 vitrine/man
 vitrine/pip-selfcheck.json
 vitrine/share
+
+*.swp
