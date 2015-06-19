@@ -68,6 +68,7 @@ class LangStatsWorker(Shepherd):
             self.config.GITLAB_BASE_URL, self.config.GITLAB_TOKEN)
         mongoengine.connect(host=self.config.DBAAS_MONGODB_ENDPOINT)
         self.gl.auth()
+        self.runs = 0
 
     def get_description(self):
         return 'LangStats worker {}'.format(__version__)
@@ -116,10 +117,13 @@ class LangStatsWorker(Shepherd):
         team.save()
 
     def do_work(self):
-        logging.debug('Started doing work...')
-        for project in _get_projects(self.gl):
-            self._process_project(project)
-        logging.debug('Work done!')
+        if not self.runs:
+            logging.debug('Started doing work...')
+            page = 1
+            for project in _get_projects(self.gl):
+                self._process_project(project)
+            logging.debug('Work done!')
+        self.runs += 1
 
 
 class CommitsWorker(Shepherd):

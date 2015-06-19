@@ -65,13 +65,37 @@ def index():
     return render_template('index.html', dt=datetime.now().strftime("%d %M %Y - %H %m %s"), groups=groups)
 
 
+EXTENSION_MAP = {
+    'py': 'Python',
+    'pl': 'Perl',
+    'groovy': 'Groovy',
+    'java': 'Java',
+    'css': 'CSS',
+    'html': 'HTML',
+    'js': 'Javascript',
+    'go': 'Go',
+    'sh': 'Shell',
+    'bash': 'Bash',
+    'rb': 'Ruby',
+    'c': 'C',
+    'h': 'C',
+    'cpp': 'C++',
+    'cc': 'C++',
+    'cs': 'C#',
+    'scala': 'Scala',
+    'erl': 'Erlang',
+    'hs': 'Haskell',
+}
+
+
 def get_languages(id):
     team = Team.objects(team_id=id).first()
     if team:
         total = sum(team.languages.values())
         languages = []
         for ext, count in sorted(team.languages.items(), key=lambda x: x[1]):
-            languages.append((ext, float(count) / total))
+            if ext in EXTENSION_MAP:
+                languages.append((EXTENSION_MAP[ext], float(count) / total))
         return languages
     else:
         return []
