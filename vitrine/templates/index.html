@@ -1,16 +1,40 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <div class="hero-unit">
-        <h1>Groups:</h1>
+	<div class="col-md-12">
+		<div class="box-custom-index">
+			<div class="box-header-custom center">
+				<h3 class="box-title-custom">Vitrine</h3>
+			</div><!-- /.box-header -->
+			<div class="box-body center">
+				Meet globo.com teams and projects
+			</div><!-- /.box-body -->
+		</div>
+	</div>
 
-        <ul class="check">
-            {% for group in groups %}
-              <li><a href="/groups/{{ group.id }}">{{ group.name }}</a></li>
-            {% endfor %}
-        </ul>
-
-        <h4>Currently {{ groups|length }} groups registered.</h4>
-
-    </div>
+	<div class="col-md-12">
+		{% for group in groups %}
+		<a href="/groups/{{ group.id }}">
+			<div class="box-custom-teams">
+				<div class="box-body">
+					<div class="team-box">
+						<div class="team-avatar">
+							<img src="
+							{% if group.projects[0].namespace.avatar.url != None %}
+								http://gitlab.globoi.com{{ group.projects[0].namespace.avatar.url}}
+							{% endif %}
+							" />
+						</div>
+						<div class="team-name">{{ group.name }}</div>
+						<div class="team-description">
+							{% if group.projects|length > 0 %}
+								{{ group.projects[0].namespace.description}}
+							{% endif %}
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</a>
+		{% endfor %}
 {% endblock content %}
