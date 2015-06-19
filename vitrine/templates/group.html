@@ -264,6 +264,14 @@
         background-color: #1B86BD;
       }
     </style>
+    {# {% assets "css_base" %}
+        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+    {% endassets %} #}
+    {% assets "css_all" %}
+        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+    {% endassets %}
+
+    {% block css %}{% endblock %}
   </head>
   <body class="skin-blue layout-top-nav">
     <div class="wrapper">
@@ -380,7 +388,7 @@
                 <h3 class="box-title-custom">Activity</h3>
               </div><!-- /.box-header -->
               <div class="box-body">
-                The body of the box
+                <div id="activity_placeholder" style="height: 145px"></div>
               </div><!-- /.box-body -->
             </div>
           </div>
@@ -408,6 +416,10 @@
     <script src="/static/vendor/admin-lte/plugins/flot/jquery.flot.pie.min.js" type="text/javascript"></script>
     <script src="/static/vendor/admin-lte/plugins/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
     <script src="/static/vendor/admin-lte/plugins/flot/jquery.flot.stack.min.js" type="text/javascript"></script>
+
+    {% assets "js_all" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 
     <script type="text/javascript">
 
@@ -449,6 +461,8 @@
             tickLength: 0
           }
         });
+
+    plotCommitsChart('#activity_placeholder', d5);
 
   });
 
